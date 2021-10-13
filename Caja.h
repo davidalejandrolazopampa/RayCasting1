@@ -4,12 +4,12 @@
 #include "Objeto.h"
 
 class Caja : public Objeto {
-public:
+private:
     vec3f rad;
+public:
+    Caja()=default;
     Caja(vec3f _rad, vec3f col, vec3f _kdkskr, float _n) : rad{_rad}, Objeto(col, _kdkskr,_n) {}
-
-    bool intersectar(Rayo ray, float &t, vec3f &c, vec3f &normal) override
-    {
+    bool intersectar(Rayo ray, float &t, vec3f &c, vec3f &normal) override{
         vec3f m = 1.0/ray.dir;
         vec3f n = ray.ori*m;
         vec3f k = abs(m)*rad;
@@ -29,7 +29,7 @@ public:
         c = color;
 
         return true;
-    }
+    };
 };
 
 #endif //RT1_CAJA_H

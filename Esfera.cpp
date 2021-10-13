@@ -16,9 +16,7 @@ bool Esfera::intersectar(Rayo ray, float &t, vec3f &col, vec3f &normal) {
     vec3f pi = ray.punto_interseccion(t);
     normal = pi - centro;
     normal.normalize();
-
     return true;
-
 }
 
 

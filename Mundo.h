@@ -5,16 +5,26 @@
 #include "Esfera.h"
 #include "Plano.h"
 #include "Caja.h"
+#include "Triangulo.h"
 
 class Mundo {
-  public:
-  Camara cam;
-  Mundo(){};
-  void run();
+private:
+    Camara cam;
+public:
 
-  void escenario1();
-  void escenario2();
+  Mundo(){};
+
+  void run();
+  void escenario1(); //TODO CLASE
+  void Matriz(); // TODO PC
+  void Proyecto();//TODO PROYECTO
+
+  float positive_random(int max){  return ((rand() % (max * 10)) + 1) / 10.0;}
+  float random(int max){float random_number = rand() % (max * 10) + 1;
+      random_number = random_number - (max*10/2.0);
+      return random_number / 10.0;}
 };
+
 
 
 #endif //RT1_MUNDO_H

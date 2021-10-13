@@ -1,6 +1,5 @@
 #include <vector>
 #include "Camara.h"
-#include <algorithm>
 
 using namespace std;
 
@@ -61,8 +60,6 @@ void Camara::Renderizar() {
             (*pImg)(x,h-1-y,0) = (BYTE)(color_min.x * 255);
             (*pImg)(x,h-1-y,1) = (BYTE)(color_min.y * 255);
             (*pImg)(x,h-1-y,2) = (BYTE)(color_min.z * 255);
-            //dis_img.render((*pImg));
-            //dis_img.paint();
 
         }
     }
@@ -128,7 +125,6 @@ vec3f Camara::CalcularRayo(Rayo rayo, int depth,int max_depth){
                 if (factor_difuso > 0) {
                     luz_difusa = pLuz->color * kd_min * factor_difuso;
                 }
-
                 // luz especular
                 vec3f dir = rayo.dir;
                 vec3f V(-dir.x, -dir.y, -dir.z); // vector hacia el observador
@@ -141,17 +137,12 @@ vec3f Camara::CalcularRayo(Rayo rayo, int depth,int max_depth){
                     factor_especular = pow(factor_especular, n_min);
                     luz_especular = pLuz->color * ks_min * factor_especular;
                 }
-
                 color_luz = luz_ambiente + luz_difusa + luz_especular;
                 color_luz.max_to_one();
             } else {
-                //vec3f color_sombra = CalcularRayo(rayo_sombra, depth + 1, max_depth);
-                //color_luz = luz_ambiente + color_sombra;
                 color_luz = luz_ambiente;
-
                 color_luz.max_to_one();
             }
-
             // Lanzar los rayos secundarios
             // Reflexivo
             vec3f color_refractivo;
@@ -182,11 +173,8 @@ vec3f Camara::CalcularRayo(Rayo rayo, int depth,int max_depth){
                 color_reflexivo = color_reflexivo * kr;
             }
             color_luz = color_luz + color_reflexivo + color_refractivo;
-            //color_luz.max_to_one();
-
             color_res = color_res + color_luz;
         }
-        //color_res.max_to_one();
         color_res = color_res / luces.size();
 
         color_min *= color_res;
@@ -215,9 +203,11 @@ vec3f Camara::CalcularRefraccion(vec3f &I, vec3f &normal, float n, float &kr){
     float Rs = ((etat * cosi) - (etai * cost)) / ((etat * cosi) + (etai * cost));
     float Rp = ((etai * cosi) - (etat * cost)) / ((etai * cosi) + (etat * cost));
     kr = (Rs * Rs + Rp * Rp) / 2;
-    //float c1 = normal.productoPunto(I);
-    // float c2 = sqrt(1-pow(etai/etat, 2) *(1-c1*c1));
     T = I*etai + normal * (etai * cosi - cost);
   }
   return T;
+}
+
+float Camara::clip(float n, float lower, float upper) {
+    return std::max(lower, std::min(n, upper));
 }

@@ -14,7 +14,7 @@ bool Cilindro::intersectar(Rayo ray, float &t, vec3f &col, vec3f &normal) {
     float b = caca * oc.productoPunto(rd) - caoc*card;
     float c = caca * oc.productoPunto(oc) - caoc*caoc - ra*ra*caca;
     float h = b*b - a*c;
-    if( h < 0.0 ) return false; //no intersection
+    if( h < 0.0 ) { return false; } //no intersection
     h = sqrt(h);
     t = (-b-h)/a;
     if (t <= 0) return false;
@@ -27,7 +27,7 @@ bool Cilindro::intersectar(Rayo ray, float &t, vec3f &col, vec3f &normal) {
     }
     // caps
     t = ( ( (y < 0.0) ? 0.0 : caca) - caoc)/card;
-    if (t <= 0) return false;
+    if (t <= 0) { return false; }
     if ( abs(b + a * t) < h ) {
         normal = ca * sgn(y) / caca;
         col = color;

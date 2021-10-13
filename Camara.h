@@ -15,6 +15,8 @@ typedef unsigned char BYTE;
 const int DEPTH_MAX = 5;
 
 class Camara {
+private:
+
     vec3f pos, xe, ye, ze;
     float w, h;
     float a, b, f, fov;
@@ -26,17 +28,14 @@ class Camara {
 
 public:
 
-    Camara() {}
+    Camara() = default;
     void calcularVectores(vec3f pos, vec3f center, vec3f up);
     void inicializar(int _w, int _h, float fov, float _near);
     void setObjetos(vector<Objeto*> _objetos);
     void Renderizar();
     vec3f CalcularRayo(Rayo rayo, int depth,int max_depth);
     vec3f CalcularRefraccion(vec3f &L,vec3f &normal,float n,float &kr);
-    float clip(float n, float lower, float upper)
-    {
-      return std::max(lower, std::min(n, upper));
-    }
+    float clip(float n, float lower, float upper);
 };
 
 
